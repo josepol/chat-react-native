@@ -1,6 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { Button } from 'react-native';
+import HeaderRight from '../components/Header/HeaderRight';
+import HeaderTitle from '../components/Header/HeaderTitle';
 import Profile from './Profile';
 
 const Stack = createStackNavigator();
@@ -11,9 +13,16 @@ const Chat: React.FC = () => {
       <Stack.Screen
         name="Home"
         component={ButtonExample}
-        options={{ title: 'Welcome' }}
+        options={{ headerTitle: props => <HeaderTitle {...props} /> }}
       />
-      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          headerTitle: props => <HeaderTitle {...props} />,
+          headerRight: props => <HeaderRight {...props} />,
+        }}
+      />
     </Stack.Navigator>
   );
 };

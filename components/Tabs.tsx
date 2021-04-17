@@ -1,15 +1,6 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import styled from 'styled-components/native';
-
-const TabText = styled.Text`
-  color: ${(props: any) => props.theme.PRIMARY_TEXT_COLOR};
-`;
-
-const TabIcon = styled(Icon)`
-  color: ${(props: any) => props.theme.PRIMARY_TEXT_COLOR};
-`;
+import { AppIcon, AppText } from './Default';
 
 const TabBar = ({ state, descriptors, navigation }: any) => {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
@@ -19,7 +10,7 @@ const TabBar = ({ state, descriptors, navigation }: any) => {
   }
 
   return (
-    <View style={style().tabBarView}>
+    <View style={style.tabBarView}>
       {state.routes.map((route: any, index: any) => {
         const { options } = descriptors[route.key];
         const label =
@@ -58,13 +49,25 @@ const TabBar = ({ state, descriptors, navigation }: any) => {
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={style().touchableOpacity}>
-            <View style={style().touchableOpacityView}>
-              <TabIcon
-                name={label === 'Chat' ? 'comments' : 'cogs'}
-                size={30}
-              />
-              <TabText>{label}</TabText>
+            style={style.touchableOpacity}>
+            <View style={style.touchableOpacityView}>
+              {label === 'Chat' && (
+                <AppIcon
+                  key="chat-tab"
+                  name="comments"
+                  size={30}
+                  isFocused={isFocused}
+                />
+              )}
+              {label === 'Settings' && (
+                <AppIcon
+                  isFocused={isFocused}
+                  key="settings-tab"
+                  name="cogs"
+                  size={30}
+                />
+              )}
+              <AppText isFocused={isFocused}>{label}</AppText>
             </View>
           </TouchableOpacity>
         );
@@ -73,17 +76,15 @@ const TabBar = ({ state, descriptors, navigation }: any) => {
   );
 };
 
-const style = (isFocused: boolean = false) =>
-  StyleSheet.create({
-    tabBarView: { flexDirection: 'row' },
-    touchableOpacity: { flex: 1 },
-    touchableOpacityTex: { color: isFocused ? '#673ab7' : '#222' },
-    touchableOpacityView: {
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      padding: 10,
-    },
-  });
+const style = StyleSheet.create({
+  tabBarView: { flexDirection: 'row' },
+  touchableOpacity: { flex: 1 },
+  touchableOpacityView: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+  },
+});
 
 export default TabBar;
